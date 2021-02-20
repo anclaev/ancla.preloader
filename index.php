@@ -1,3 +1,7 @@
+<?php 
+  $view = $_GET['view'];
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -59,6 +63,11 @@
     <section class="main">Контент</section>
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/preloader.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+      showPreloader();
+      <?php if($view) { echo "$(() => {
+        closePreloader();
+      });";} ?>
+    </script>
   </body>
 </html>
