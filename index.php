@@ -1,5 +1,5 @@
 <?php 
-  $view = $_GET['view'];
+  $vm = $_GET['vm'];
 ?>
 
 <!DOCTYPE html>
@@ -64,10 +64,7 @@
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/preloader.js"></script>
     <script>
-      showPreloader();
-      <?php if($view) { echo "$(() => {
-        closePreloader();
-      });";} ?>
+      showPreloader(<?php echo $vm ? $vm . "000" : "5000" ?>);
     </script>
   </body>
 </html>
