@@ -1,5 +1,10 @@
-var phrases = [];
-fadeSpeed = "";
+var storage = {
+  preloader: {
+    phrases: [],
+    fadeSpeed: 0,
+  },
+};
+
 preloaderStatus = false;
 preloader = $(".preloader");
 phraseBox = $(".preloader-title__text");
@@ -15,19 +20,18 @@ const showPreloader = (timeout) => {
 
   preloaderStatus = true;
 
-  loadData("phrases", phrases, () => setPhrase());
+  loadData("preloader", () => setPhrase());
 };
 
-const loadData = (dataType, targetStorage, callback) => {
-  $.getJSON("js/preloader.json", (data) => {
-    data[dataType].map((item) => targetStorage.push(item));
-
-    fadeSpeed = data["fadeSpeed"];
+const loadData = (target, callback) => {
+  $.getJSON("js/" + target + ".json", (data) => {
+    storage[target] = data;
     callback();
   });
 };
 
 const setPhrase = () => {
+  let phrases = storage["preloader"]["phrases"];
   let phraseIndex = 0;
 
   if (phrases.length != 0) phraseIndex = getRandomInt(0, phrases.length);
@@ -61,12 +65,12 @@ const setPhrase = () => {
   setTimeout(() => {
     phraseBox.toggleClass("fadeIn");
     phraseBox.toggleClass("fadeOut");
-  }, fadeSpeed);
+  }, storage["preloader"]["fadeSpeed"]);
 
   setTimeout(() => {
     phraseBox.toggleClass("fadeOut");
     setPhrase();
-  }, fadeSpeed * 3);
+  }, storage["preloader"]["fadeSpeed"] * 3);
 };
 
 const closePreloader = () => (preloaderStatus = false);

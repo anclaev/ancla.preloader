@@ -1,7 +1,5 @@
-var storage = [];
-
 showPreloader();
 
 $(() => {
-  //closePreloader();
+  closePreloader();
 });
