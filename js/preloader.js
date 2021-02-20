@@ -11,7 +11,7 @@ var preloaderCode =
 preloaderStatus = false;
 
 const showPreloader = (timeout) => {
-  $("body").append(preloaderCode);
+  $("body").css("overflow-y", "hidden").append(preloaderCode);
 
   preloader = $(".preloader");
   phraseBox = $(".preloader-title__text");
@@ -49,7 +49,7 @@ const setPhrase = () => {
   setInterval(() => {
     if (!preloaderStatus) {
       preloader.addClass("fadeOut");
-      $("body").css("overflow-y", "");
+      $("body").css("overflow-y", "").removeAttr("style");
 
       setTimeout(() => {
         preloader.remove();
