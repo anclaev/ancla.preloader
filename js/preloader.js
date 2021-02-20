@@ -20,11 +20,8 @@ const showPreloader = (timeout) => {
 
 const loadData = (dataType, targetStorage, callback) => {
   $.getJSON("js/preloader.json", (data) => {
-    let targetData = data[dataType];
+    data[dataType].map((item) => targetStorage.push(item));
 
-    $.each(targetData, (id) => {
-      targetStorage.push(targetData[id]);
-    });
     fadeSpeed = data["fadeSpeed"];
     callback();
   });
@@ -46,7 +43,7 @@ const setPhrase = () => {
 
       setTimeout(() => {
         preloader.remove();
-      }, 2000);
+      }, 1500);
 
       return true;
     }
