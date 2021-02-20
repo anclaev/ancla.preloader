@@ -1,7 +1,22 @@
 var phrases = [];
+fadeSpeed = "";
 preloaderStatus = false;
 preloader = $(".preloader");
 phraseBox = $(".preloader-title__text");
+
+const showPreloader = (timeout) => {
+  preloader.toggleClass("preloader--active");
+
+  if (typeof timeout != "undefined") {
+    setTimeout(() => {
+      closePreloader();
+    }, timeout);
+  }
+
+  preloaderStatus = true;
+
+  loadData("phrases", phrases, () => setPhrase());
+};
 
 const loadData = (dataType, targetStorage, callback) => {
   $.getJSON("js/preloader.json", (data) => {
@@ -10,12 +25,12 @@ const loadData = (dataType, targetStorage, callback) => {
     $.each(targetData, (id) => {
       targetStorage.push(targetData[id]);
     });
-
-    callback(data["fadeSpeed"]);
+    fadeSpeed = data["fadeSpeed"];
+    callback();
   });
 };
 
-const setPhrase = (fadeSpeed) => {
+const setPhrase = () => {
   let phraseIndex = 0;
 
   if (phrases.length != 0) phraseIndex = getRandomInt(0, phrases.length);
@@ -23,6 +38,7 @@ const setPhrase = (fadeSpeed) => {
   currentPhrase = phraseBox.text();
   nextPhrase = phrases[phraseIndex] + "...";
 
+  //Деактивация прелоадера
   setInterval(() => {
     if (!preloaderStatus) {
       preloader.addClass("fadeOut");
@@ -35,8 +51,9 @@ const setPhrase = (fadeSpeed) => {
       return true;
     }
   }, 1000);
+  //.
 
-  if (currentPhrase == nextPhrase) {
+  if (currentPhrase == nextPhrase && phrases.length > 1) {
     setPhrase();
     return true;
   }
@@ -53,20 +70,6 @@ const setPhrase = (fadeSpeed) => {
     phraseBox.toggleClass("fadeOut");
     setPhrase();
   }, fadeSpeed * 3);
-};
-
-const showPreloader = (timeout) => {
-  preloader.toggleClass("preloader--active");
-
-  if (typeof timeout != "undefined") {
-    setTimeout(() => {
-      closePreloader();
-    }, timeout);
-  }
-
-  preloaderStatus = true;
-
-  loadData("phrases", phrases, (fadeSpeed) => setPhrase(fadeSpeed));
 };
 
 const closePreloader = () => (preloaderStatus = false);
