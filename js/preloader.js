@@ -5,11 +5,17 @@ var storage = {
   },
 };
 
+var preloaderCode =
+  "<div class='preloader'><div class='preloader-car'><div class='car'><div class='strike'></div><div class='strike strike2'></div><div class='strike strike3'></div><div class='strike strike4'></div><div class='strike strike5'></div><div class='car-detail spoiler'></div><div class='car-detail back'></div><div class='car-detail center'></div><div class='car-detail center1'></div><div class='car-detail front'></div><div class='car-detail wheel'></div><div class='car-detail wheel wheel2'></div></div><!-- /.car --></div><!-- /.preloader-car --><div class='preloader-title'><span class='preloader-title__text'></span></div><!-- /.preloader-title --></div>";
+
 preloaderStatus = false;
-preloader = $(".preloader");
-phraseBox = $(".preloader-title__text");
 
 const showPreloader = (timeout) => {
+  $("body").append(preloaderCode);
+
+  preloader = $(".preloader");
+  phraseBox = $(".preloader-title__text");
+
   preloader.toggleClass("preloader--active");
 
   if (typeof timeout != "undefined") {
@@ -47,6 +53,7 @@ const setPhrase = () => {
 
       setTimeout(() => {
         preloader.remove();
+        $("body").css("overflow-y", "");
       }, 1500);
 
       return true;
