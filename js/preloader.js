@@ -49,13 +49,16 @@ const setPhrase = () => {
   setInterval(() => {
     if (!preloaderStatus) {
       preloader.addClass("fadeOut");
-      $("body").css("overflow-y", "visible");
+      $("body").css("overflow-y", "");
 
       setTimeout(() => {
         preloader.remove();
-        $("body").css("overflow-y", "");
-      }, 1500);
 
+        let id = window.setTimeout(() => {}, 0);
+        while (id--) {
+          window.clearTimeout(id);
+        }
+      }, 1500);
       return true;
     }
   }, 1000);
